@@ -9,13 +9,13 @@ import json
 from datetime import datetime
 import os
 
-def get_scary_stories():
-    """Fetch scary stories from r/OneParagraph"""
+def get_scary_stories(subreddit="OneParagraph"):
+    """Fetch scary stories from a given subreddit (default: r/OneParagraph)"""
     
-    print("🎃 Fetching scary stories from r/OneParagraph...")
+    print(f"🎃 Fetching scary stories from r/{subreddit}...")
     
     # Reddit's public JSON endpoint
-    url = "https://www.reddit.com/r/OneParagraph/top.json"
+    url = f"https://www.reddit.com/r/{subreddit}/top.json"
     
     headers = {
         'User-Agent': 'ScaryStoryScraper/1.0 (Educational Purpose)'
@@ -96,8 +96,8 @@ def save_story_json(story, out_path):
         json.dump(story, f, indent=2, ensure_ascii=False)
     print(f"💾 Story saved to '{out_path}'")
 
-def fetch_and_save_top_story(json_path):
-    stories = get_scary_stories()
+def fetch_and_save_top_story(json_path, subreddit="scarystories"):
+    stories = get_scary_stories(subreddit=subreddit)
     if stories:
         top_story = stories[0]
         save_story_json(top_story, json_path)
