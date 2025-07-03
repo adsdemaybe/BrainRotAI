@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Quick Reddit Scary Stories Scraper
 """
 Quick Reddit Scary Stories Scraper
 Fetches scary stories without API credentials using Reddit's JSON endpoints
