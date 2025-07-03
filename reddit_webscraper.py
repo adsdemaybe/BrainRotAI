@@ -10,8 +10,14 @@ import json
 from datetime import datetime
 import os
 
-def get_scary_stories(subreddit="scarystories"):
-    """Fetch scary stories from a given subreddit (default: r/OneParagraph)"""
+def get_scary_stories(subreddit="scarystories", time_filter='week', limit=25):
+    """Fetch scary stories from a given subreddit (default: r/OneParagraph)
+    
+    Args:
+        subreddit (str): Subreddit name without 'r/'
+        time_filter (str): Time filter ('week', 'month', 'year', 'all')
+        limit (int): Maximum number of posts to fetch
+    """
     
     print(f"🎃 Fetching scary stories from r/{subreddit}...")
     
@@ -23,8 +29,8 @@ def get_scary_stories(subreddit="scarystories"):
     }
     
     params = {
-        't': 'week',  # time filter: week
-        'limit': 25   # number of posts
+        't': time_filter,  # time filter
+        'limit': limit     # number of posts
     }
     
     try:
@@ -65,17 +71,20 @@ def get_scary_stories(subreddit="scarystories"):
                 'text': selftext,
                 'num_comments': post.get('num_comments', 0),
                 'awards': post.get('total_awards_received', 0),
-                'id': post.get('id', '')
+                'id': post.get('id', ''),
+                'word_count': len(selftext.split())
             }
             stories.append(story)
         
         # Sort by score (highest first)
         stories.sort(key=lambda x: x['score'], reverse=True)
         
+        print(f"📊 Found {len(stories)} valid stories with text content")
         if stories:
-            return [stories[0]]  # Return only the top story as a list
-        else:
-            return []
+            print(f"🏆 Top story has {stories[0]['score']} upvotes")
+            print(f"📝 Stories range from {min(s['word_count'] for s in stories)} to {max(s['word_count'] for s in stories)} words")
+        
+        return stories
         
     except requests.exceptions.Timeout:
         print("❌ Request timed out. Reddit might be slow or blocking requests.")
@@ -96,6 +105,50 @@ def save_story_json(story, out_path):
     with open(out_path, 'w', encoding='utf-8') as f:
         json.dump(story, f, indent=2, ensure_ascii=False)
     print(f"💾 Story saved to '{out_path}'")
+
+def get_story_statistics(stories):
+    """Get statistics about the fetched stories
+    
+    Args:
+        stories (list): List of story dictionaries
+        
+    Returns:
+        dict: Statistics about the stories
+    """
+    if not stories:
+        return {}
+    
+    scores = [s['score'] for s in stories]
+    word_counts = [s['word_count'] for s in stories]
+    
+    stats = {
+        'total_stories': len(stories),
+        'avg_score': sum(scores) / len(scores),
+        'max_score': max(scores),
+        'min_score': min(scores),
+        'avg_word_count': sum(word_counts) / len(word_counts),
+        'max_word_count': max(word_counts),
+        'min_word_count': min(word_counts),
+        'long_stories': len([w for w in word_counts if w > 800])  # Stories that will be chunked
+    }
+    
+    return stats
+
+def print_story_statistics(stories):
+    """Print formatted statistics about the stories"""
+    stats = get_story_statistics(stories)
+    if not stats:
+        print("📊 No stories to analyze")
+        return
+    
+    print("\n📊 Story Statistics:")
+    print(f"   📚 Total stories: {stats['total_stories']}")
+    print(f"   🏆 Score range: {stats['min_score']} - {stats['max_score']} (avg: {stats['avg_score']:.1f})")
+    print(f"   📝 Word count range: {stats['min_word_count']} - {stats['max_word_count']} (avg: {stats['avg_word_count']:.1f})")
+    print(f"   📄 Long stories (>800 words): {stats['long_stories']}")
+    
+    if stats['long_stories'] > 0:
+        print(f"   ⚠️  {stats['long_stories']} stories will be processed in chunks for TTS")
 
 def fetch_and_save_top_story(json_path, subreddit="scarystories"):
     stories = get_scary_stories(subreddit=subreddit)
