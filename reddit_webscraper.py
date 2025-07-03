@@ -9,7 +9,7 @@ import json
 from datetime import datetime
 import os
 
-def get_scary_stories(subreddit="OneParagraph"):
+def get_scary_stories(subreddit="scarystories"):
     """Fetch scary stories from a given subreddit (default: r/OneParagraph)"""
     
     print(f"🎃 Fetching scary stories from r/{subreddit}...")

@@ -36,7 +36,7 @@ def tts_story_json(json_path, audio_out_path, api_key, voice_name='Kore'):
    print(f"Audio saved to {audio_out_path}")
 
 if __name__ == "__main__":
-   api_key = "AIzaSyAxmkLOLrUOFryzj5NMMZVTZ2mOwf_4HAo"
+   api_key = "AIzaSyBh3qOMFjY3rgNWpV5Ko_D9soZrTE1w--M"
    json_path = os.path.join(os.getcwd(), 'reddit_stories', 'scary_stories_quick.json')
    audio_out_path = os.path.join('audio', 'out.wav')
    tts_story_json(json_path, audio_out_path, api_key)
