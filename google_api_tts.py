@@ -4,6 +4,8 @@ import wave
 import json
 import os
 
+# This script uses Google GenAI to convert text to speech (TTS) for a given story in JSON format.
+
 def wave_file(filename, pcm, channels=1, rate=24000, sample_width=2):
    with wave.open(filename, "wb") as wf:
       wf.setnchannels(channels)
