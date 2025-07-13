@@ -4,7 +4,7 @@ from reddit_webscraper import get_scary_stories, save_story_json, print_story_st
 from google_api_tts import tts_story_json
 
 API_KEY = "AIzaSyAxmkLOLrUOFryzj5NMMZVTZ2mOwf_4HAo"
-SUBREDDIT = "scarystories"  # Change this to any subreddit you want
+SUBREDDIT = "udub"  # Change this to any subreddit you want
 AUDIO_DIR = 'audio'
 JSON_DIR = 'reddit_stories'
 

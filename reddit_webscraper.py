@@ -106,7 +106,7 @@ def save_story_json(story, out_path):
         json.dump(story, f, indent=2, ensure_ascii=False)
     print(f"💾 Story saved to '{out_path}'")
 
-def get_story_statistics(stories):
+def get_story_statistics(stories):  
     """Get statistics about the fetched stories
     
     Args:
