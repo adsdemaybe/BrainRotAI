@@ -1,0 +1,16 @@
+# Core dependencies
+requests>=2.28.0
+google-genai>=0.3.0
+
+# Image processing
+Pillow>=9.0.0
+
+# Video processing (requires FFmpeg to be installed separately)
+# FFmpeg can be downloaded from: https://ffmpeg.org/download.html
+
+# Optional: For better font handling
+# matplotlib>=3.5.0  # For additional font support
+
+# Development dependencies (optional)
+# jupyter>=1.0.0
+# notebook>=6.4.0
