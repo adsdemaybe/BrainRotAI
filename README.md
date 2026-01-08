@@ -4,7 +4,7 @@ Small Python toolkit that:
 - Scrapes top text posts from a subreddit via Reddit’s public JSON endpoints
 - Saves stories to JSON
 - Generates TTS audio from a story JSON (Google API)
-- (Optional) Generates images/videos (requires FFmpeg for video)
+- (Optional) Generates images/videos (requires FFmpeg for video) DOESNT WORK YET
 
 ## Setup
 
